@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,python
 
+database.db
+
+.python-version
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -195,4 +199,7 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python
 
 # Generated using ignr.py - github.com/Antrikshy/ignr.py
+
+convetional_commits_guide.txt
+commands.txt
 
