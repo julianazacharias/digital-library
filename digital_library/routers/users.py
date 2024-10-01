@@ -7,7 +7,12 @@ from sqlalchemy.orm import Session
 
 from digital_library.database import get_session
 from digital_library.models import User
-from digital_library.schemas import Message, UserList, UserPublic, UserSchema
+from digital_library.schemas import (
+    Message,
+    UserList,
+    UserPublic,
+    UserSchema,
+)
 from digital_library.security import (
     get_current_user,
     get_password_hash,
@@ -57,6 +62,18 @@ def create_user(user: UserSchema, session: Session):
 def read_users(session: Session, skip: int = 0, limit: int = 100):
     users = session.scalars(select(User).offset(skip).limit(limit)).all()
     return {'users': users}
+
+
+@router.get('/{user_id}/', response_model=UserPublic)
+def read_user(user_id: int, session: Session):
+    db_user = session.scalar(select(User).where(User.id == user_id))
+
+    if not db_user:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='user not found'
+        )
+
+    return db_user
 
 
 @router.put('/{user_id}', response_model=UserPublic)

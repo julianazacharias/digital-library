@@ -7,7 +7,7 @@ from sqlalchemy.pool import StaticPool
 
 from digital_library.app import app
 from digital_library.database import get_session
-from digital_library.models import User, table_registry
+from digital_library.models import Author, Book, User, table_registry
 from digital_library.security import get_password_hash
 
 
@@ -18,6 +18,22 @@ class UserFactory(factory.Factory):
     username = factory.Sequence(lambda n: f'test{n}')
     email = factory.LazyAttribute(lambda obj: f'{obj.username}@test.com')
     password = factory.LazyAttribute(lambda obj: f'{obj.username}@example.com')
+
+
+class AuthorFactory(factory.Factory):
+    class Meta:
+        model = Author
+
+    name = factory.Sequence(lambda n: f'test{n}')
+
+
+class BookFactory(factory.Factory):
+    class Meta:
+        model = Book
+
+    year = 2024
+    title = 'fake title'
+    author_id = 1
 
 
 @pytest.fixture
@@ -82,3 +98,25 @@ def token(client, user):
         data={'username': user.email, 'password': user.clean_password},
     )
     return response.json()['access_token']
+
+
+@pytest.fixture
+def author(session):
+    author = AuthorFactory()
+
+    session.add(author)
+    session.commit()
+    session.refresh(author)
+
+    return author
+
+
+@pytest.fixture
+def book(session):
+    book = BookFactory()
+
+    session.add(book)
+    session.commit()
+    session.refresh(book)
+
+    return book
