@@ -1,6 +1,6 @@
 # Digital Library
 
-A simple API buildt with FastAPI Sync to manage books.
+A simple API built with FastAPI Sync to manage books.
 This API allows users to perform operations such as adding, updating, and retrieving books.
 
 ## How to run the project
